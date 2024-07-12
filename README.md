@@ -10,8 +10,6 @@ The realm and users will be exported to /tmp/keycloak-export/myrealm-export.json
 
 ## To import realm and users from json
 
-Note: For the Keycloak containers, the import directory is /opt/keycloak/data/import
-
 ```bash
 cd /opt/keycloak/bin
 ./kc.sh import --file /tmp/realm-export.json
@@ -25,6 +23,8 @@ Only regular files using the .json extension are read from this directory, sub-d
 bin/kc.[sh|bat] start --import-realm
 ```
 
+Note: For the Keycloak containers, the import directory is /opt/keycloak/data/import
+
 ## If keycloak is hosted using docker
 
 ## Exporting
@@ -34,16 +34,23 @@ docker ps
 docker exec -it <container_id> /bin/bash
 ```
 
-Once Exported
+Once Exported copy to vm using
 
 ```bash
 docker cp <container_id>:/tmp/keycloak-export /path/on/your/vm
 ```
 
-## Importing
+## Importing (vm to container)
 
 ```bash
-docker cp /home/user/keycloak-export/realm-export.json <container_id>:/tmp/realm-export.json
+docker cp /home/user/keycloak-export <container_id>:/tmp
+```
+
+or copy to default import directory
+
+```bash
+docker cp /home/user/keycloak-export <container_id>:/opt/keycloak/data/import
+
 ```
 
 once copied add the following to docker-compose
