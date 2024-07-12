@@ -19,6 +19,7 @@ services:
   keycloak:
     image: quay.io/keycloak/keycloak:latest
     command: start
+    restart: unless-stopped
     environment:
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://postgres/keycloak
@@ -28,12 +29,14 @@ services:
       KEYCLOAK_ADMIN_PASSWORD: admin_password
       KC_PROXY: edge
       KC_HOSTNAME_STRICT: 'false'
+      KC_HEALTH_ENABLED: 'true'
+      KC_METRICS_ENABLED: 'true'
     ports:
       - "8080:8080"
+      - "9000:9000"
     depends_on:
       postgres:
         condition: service_healthy
-    restart: unless-stopped
 
 volumes:
   postgres_data:
